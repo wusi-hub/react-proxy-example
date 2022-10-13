@@ -2,16 +2,19 @@ import React, { useState } from 'react';
 import './App.css';
 import Header from './components/Header';
 import BookTable from './components/BookTable';
+import TodoTable from './components/TodoTable';
 import DisplayBoard from './components/DisplayBoard';
 import CreateBook from './components/CreateBook';
 import { getAllBooks, createBook } from './services/BookService';
 import Footer from './components/Footer';
+import { getAllTodos } from './services/TodoService';
 
 function App () {
 
   const [bookShelf, setBookShelf] = useState({});
   const [books, setBooks] = useState([]);
   const [numberOfBooks, setNumberBooks] = useState(0);
+  const [todos, setTodos] = useState([]);
 
   const handleSubmit = () => {
       createBook(bookShelf)
@@ -25,6 +28,13 @@ function App () {
       .then(data => {
         setBooks(data);
         setNumberBooks(data.length);
+      });
+  }
+
+  const getAllTodo = () => {
+    getAllTodos()
+      .then(data => {
+        setTodos(data);
       });
   }
 
@@ -53,8 +63,10 @@ function App () {
         <DisplayBoard 
           numberOfBooks={numberOfBooks} 
           getAllBook={getAllBook} 
+          getAllTodo={getAllTodo}
         />
         <BookTable books={books} />
+        <TodoTable todos={todos} />
         <Footer />
       </div>
     </div>
